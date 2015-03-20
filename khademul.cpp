@@ -274,7 +274,6 @@ if(isEqual(networkCode,"CE") || isEqual(networkCode,"CI") || isEqual(networkCode
 	printLog(strTmp);
 	isValidRow=0;
 }
-stationInfo.setStationCode(stationCode);
 char *stationCode = strtok(NULL," ");
 int isValid=1;
 if (strlen(stationCode)==3) {
