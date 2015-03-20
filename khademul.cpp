@@ -229,3 +229,28 @@ if(earthquake.getMagnitudeSize()<0) {
 }
 printLog("Header read correctly!");
 FILE *fpOut = openFileWriteMode("khademul.out");
+
+const char* months[12] =
+{   "January","February","March","April","May","June",
+    "July","August","September","October","November","December"
+};
+fprintf(fpOut, "# %.2d %s %d %.2d:%.2d:%.2d.%.3d %s %s %.1f %s [%s] (%.2f, %.2f, %.1f)\n",
+	earthquake.getDate().getDay(),months[earthquake.getDate().getMonth()],earthquake.getDate().getYear(),
+	earthquake.getTime().getHour(), earthquake.getTime().getMinute() , earthquake.getTime().getSecond() , earthquake.getTime().getMilisecond(),
+	earthquake.getTimezone().c_str(),
+	earthquake.getMagnitudeTypeString(), earthquake.getMagnitudeSize(),
+	earthquake.getEarthquakeName().c_str(), earthquake.getId().c_str(),
+	earthquake.getEpicenter().getLongitude(), earthquake.getEpicenter().getLatitude(), earthquake.getEpicenter().getDepth());
+
+StationInfo stationInfos[300];
+
+int entryNumber=1;
+int invalidCount=0;
+int validEntryCount=0;
+int totalSignalNames=0;
+while(getline(fp, line)) {
+	line = trim(line);
+	if(validEntryCount>300) {
+		continue;
+	}
+	int isValidRow=1;
