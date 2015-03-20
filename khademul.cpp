@@ -101,32 +101,54 @@ FILE* openFileWriteMode(char *filePath) {
 }
 
 int main() {
-	string line;
-	char strTmp[256];
-	char inputFilePath[1024];
-	printf("Input File: ");
-	std::cin>>inputFilePath;
-	fpLog = openFileWriteMode("earthquake.log");
-	sprintf(strTmp, "Opening file:%s",inputFilePath);
-	printLog(strTmp);
-	std::ifstream fp(inputFilePath);
-	if (!fp.is_open()) {
-		printLog("Input file not exist");
-		exit(1);
-	}
-	Earthquake earthquake;
-	Date date;
-	Time time;
-	printLog("Processing input...");
-	string eventId;
-	if(!getline(fp, eventId)) {
-		printLog("Error in Header File: No Event ID");
-		return 0;
-	}
-	eventId = trim(eventId);
-	earthquake.setId(eventId);
-	if(!getline(fp, line)) {
-		printLog("Error in Header File: Date Time Row Missing");
-		return 0;
-	}
-	line = trim(line);
+string line;
+char strTmp[256];
+char inputFilePath[1024];
+printf("Input File: ");
+std::cin>>inputFilePath;
+fpLog = openFileWriteMode("earthquake.log");
+sprintf(strTmp, "Opening file:%s",inputFilePath);
+printLog(strTmp);
+std::ifstream fp(inputFilePath);
+if (!fp.is_open()) {
+	printLog("Input file not exist");
+	exit(1);
+}
+Earthquake earthquake;
+Date date;
+Time time;
+printLog("Processing input...");
+string eventId;
+if(!getline(fp, eventId)) {
+	printLog("Error in Header File: No Event ID");
+	return 0;
+}
+eventId = trim(eventId);
+earthquake.setId(eventId);
+if(!getline(fp, line)) {
+	printLog("Error in Header File: Date Time Row Missing");
+	return 0;
+}
+line = trim(line);
+char *dateStr = strtok((char *)line.c_str(), " \r\n");
+if (dateStr == NULL) {
+	printLog("Error in Header File: Date Error");
+	return 0;
+}
+char *timeStr = strtok(NULL, " \r\n");
+if (timeStr == NULL) {
+	printLog("Error in Header File: Time Error");
+	exit(1);
+}
+char *timezoneStr = strtok(NULL, " \r\n");
+string timezone;
+if (timezoneStr == NULL) {
+	printLog("Error in Header File: Timezone Error");
+	exit(1);
+}
+if(strlen(timezoneStr)!=3) {
+	printLog("Error in Header File: Timezone Format Error");
+	exit(1);
+}
+timezone = timezoneStr;
+earthquake.setTimezone(timezone);
