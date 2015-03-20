@@ -1,5 +1,5 @@
 /*
- * Earthquake.h
+ * earthquake.h
  * Header file
  * khademul haque
  *   
@@ -14,38 +14,38 @@
 
 enum MagnitudeType {Ml, Ms, Mb, Mw};
 
-struct Earthquake {
+struct earthquake {
  private:
   std::string id;
-  Date date;
-  Time time;
+  date date;
+  time time;
   std::string timezone;
   std::string earthquakeName;
-  Epicenter epicenter;
+  epicenter epicenter;
   MagnitudeType magnitudeType;
   double magnitudeSize;
  public:
-  const Date& getDate() const {
+  const date& getdate() const {
   	return date;
  }
 
-void setDate(const Date& date) {
+void setdate(const date& date) {
 	this->date = date;
  }
 
-const std::string& getEarthquakeName() const {
+const std::string& getearthquakeName() const {
 	return earthquakeName;
  }
 
-void setEarthquakeName(const std::string& earthquakeName) {
+void setearthquakeName(const std::string& earthquakeName) {
 	this->earthquakeName = earthquakeName;
  }
 
-const Epicenter& getEpicenter() const {
+const epicenter& getepicenter() const {
 	return epicenter;
  }
 
-void setEpicenter(const Epicenter& epicenter) {
+void setepicenter(const epicenter& epicenter) {
 	this->epicenter = epicenter;
  }
 
@@ -91,19 +91,19 @@ void setMagnitudeType(MagnitudeType magnitudeType) {
 	this->magnitudeType = magnitudeType;
  }
 
-const Time& getTime() const {
+const time& gettime() const {
 	return time;
  }
 
-void setTime(const Time& time) {
+void settime(const time& time) {
 	this->time = time;
  }
 
-const std::string& getTimezone() const {
+const std::string& gettimezone() const {
 	return timezone;
  }
 
-void setTimezone(const std::string& timezone) {
+void settimezone(const std::string& timezone) {
 	this->timezone = timezone;
  }
 };

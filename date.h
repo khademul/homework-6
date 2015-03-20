@@ -9,14 +9,14 @@
 
 enum Month {January, February, March, April, May, June, July, August, September, October, November, December};
 
-struct Date {
+struct date {
 private:
 	int day;
 	Month month;
 	int year;
 public:
 
-bool isValidDate() {
+bool isValiddate() {
 	return true;
 }
 bool isLeapYear() {

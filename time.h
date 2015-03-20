@@ -1,5 +1,5 @@
 /*
- * Time.h
+ * time.h
  * Header file
  * khademul haque
  */
@@ -7,7 +7,7 @@
 #ifndef TIME_H_
 #define TIME_H_
 
-struct Time {
+struct time {
  private:
   int hour;
   int minute;

@@ -1,5 +1,5 @@
 /*
- * StationInfo.h
+ * stationinfo.h
  * Header file
  * khademul haque
  */
@@ -11,7 +11,7 @@ enum NetworkCode {CE, CI, FA, NP, WR};
 enum TypeOfBand {LongPeriod='L', ShortPeriod='B', Broadband='H'};
 enum TypeOfInstrument {HighGain='H', LowGain='L', Accelerometer='N'};
 
-struct StationInfo {
+struct stationinfo {
  private:
   NetworkCode networkCode;
   std::string stationCode;

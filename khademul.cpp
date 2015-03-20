@@ -10,7 +10,7 @@
 #include <stdlib.h>
 #include <fstream>
 #include "earthquake.h"
-#include "stationInfo.h"
+#include "stationinfo.h"
 
 using namespace std;
 
@@ -114,9 +114,9 @@ if (!fp.is_open()) {
 	printLog("Input file not exist");
 	exit(1);
 }
-Earthquake earthquake;
-Date date;
-Time time;
+earthquake earthquake;
+date date;
+time time;
 printLog("Processing input...");
 string eventId;
 if(!getline(fp, eventId)) {
@@ -151,7 +151,7 @@ if(strlen(timezoneStr)!=3) {
 	exit(1);
 }
 timezone = timezoneStr;
-earthquake.setTimezone(timezone);
+earthquake.settimezone(timezone);
 
 //int year,month,day,hour,minute,second,milisecond;
 if ((dateStr[2]=='/' && dateStr[5]=='/') || (dateStr[2]=='-' && dateStr[5]=='-')) {
@@ -174,12 +174,12 @@ if (timeStr[2]==':' && timeStr[5]==':' && timeStr[8]=='.') {
 	printLog("Error in Header File: Time format error");
 	exit(1);
 }
-if(!date.isValidDate()) {
+if(!date.isValiddate()) {
 	printLog("Error in Header File: Invalid date");
 	exit(1);
 }
-earthquake.setDate(date);
-earthquake.setTime(time);
+earthquake.setdate(date);
+earthquake.settime(time);
 
 string earthquakeName;
 if(!getline(fp,earthquakeName)) {
@@ -187,19 +187,19 @@ if(!getline(fp,earthquakeName)) {
 	exit(1);
 }
 earthquakeName = trim(earthquakeName);
-earthquake.setEarthquakeName(earthquakeName);
+earthquake.setearthquakeName(earthquakeName);
 
 if(!getline(fp,line)) {
 	printLog("Error in Header File: Latitude Longitude Line Missing");
 	exit(1);
 }
 line = trim(line);
-Epicenter epicenter;
+epicenter epicenter;
 epicenter.setLongitude( atof_h(strtok((char *)line.c_str()," \r\n")) );
 epicenter.setLatitude( atof_h(strtok(NULL," \r\n")) );
 epicenter.setDepth( atof_h(strtok(NULL," \r\n")) );
 
-earthquake.setEpicenter(epicenter);
+earthquake.setepicenter(epicenter);
 
 char *magnitudeType = strtok(NULL," \r\n");
 earthquake.setMagnitudeSize( atof_h(strtok(NULL," \r\n")) );
@@ -235,14 +235,14 @@ const char* months[12] =
     "July","August","September","October","November","December"
 };
 fprintf(fpOut, "# %.2d %s %d %.2d:%.2d:%.2d.%.3d %s %s %.1f %s [%s] (%.2f, %.2f, %.1f)\n",
-	earthquake.getDate().getDay(),months[earthquake.getDate().getMonth()],earthquake.getDate().getYear(),
-	earthquake.getTime().getHour(), earthquake.getTime().getMinute() , earthquake.getTime().getSecond() , earthquake.getTime().getMilisecond(),
-	earthquake.getTimezone().c_str(),
+	earthquake.getdate().getDay(),months[earthquake.getdate().getMonth()],earthquake.getdate().getYear(),
+	earthquake.gettime().getHour(), earthquake.gettime().getMinute() , earthquake.gettime().getSecond() , earthquake.gettime().getMilisecond(),
+	earthquake.gettimezone().c_str(),
 	earthquake.getMagnitudeTypeString(), earthquake.getMagnitudeSize(),
-	earthquake.getEarthquakeName().c_str(), earthquake.getId().c_str(),
-	earthquake.getEpicenter().getLongitude(), earthquake.getEpicenter().getLatitude(), earthquake.getEpicenter().getDepth());
+	earthquake.getearthquakeName().c_str(), earthquake.getId().c_str(),
+	earthquake.getepicenter().getLongitude(), earthquake.getepicenter().getLatitude(), earthquake.getepicenter().getDepth());
 
-StationInfo stationInfos[300];
+stationinfo stationinfos[300];
 
 int entryNumber=1;
 int invalidCount=0;
@@ -254,20 +254,20 @@ while(getline(fp, line)) {
 		continue;
 	}
 	int isValidRow=1;
-StationInfo stationInfo;
+stationinfo stationinfo;
 char *networkCode = strtok((char *)line.c_str()," ");
 if(isEqual(networkCode,"CE") || isEqual(networkCode,"CI") || isEqual(networkCode,"FA")
 		|| isEqual(networkCode,"NP") || isEqual(networkCode,"WR")) {
 	if(isEqual(networkCode,"CE")) {
-		stationInfo.setNetworkCode(CE);
+		stationinfo.setNetworkCode(CE);
 	} else if (isEqual(networkCode,"CI") ) {
-		stationInfo.setNetworkCode(CI);
+		stationinfo.setNetworkCode(CI);
 	} else if (isEqual(networkCode,"FA") ) {
-		stationInfo.setNetworkCode(FA);
+		stationinfo.setNetworkCode(FA);
 	} else if (isEqual(networkCode,"NP") ) {
-		stationInfo.setNetworkCode(NP);
+		stationinfo.setNetworkCode(NP);
 	} else if (isEqual(networkCode,"WR") ) {
-		stationInfo.setNetworkCode(WR);
+		stationinfo.setNetworkCode(WR);
 	}
 } else {
 	sprintf(strTmp, "Entry #%3d ignored. Invalid network.",entryNumber);
@@ -298,14 +298,14 @@ if(isValid==0) {
 	printLog(strTmp);
 	isValidRow=0;
 }
-stationInfo.setStationCode(stationCode);
+stationinfo.setStationCode(stationCode);
 char *typeOfBand = strtok(NULL," ");
 if(isEqualCI(typeOfBand,"Long-period")) {
-	stationInfo.setTypeOfBand(LongPeriod);
+	stationinfo.setTypeOfBand(LongPeriod);
 } else if(isEqualCI(typeOfBand,"Short-period")) {
-	stationInfo.setTypeOfBand(ShortPeriod);
+	stationinfo.setTypeOfBand(ShortPeriod);
 } else if(isEqualCI(typeOfBand,"Broadband")) {
-	stationInfo.setTypeOfBand(Broadband);
+	stationinfo.setTypeOfBand(Broadband);
 } else {
 	sprintf(strTmp, "Entry #%3d ignored. Invalid band type.",entryNumber);
 	printLog(strTmp);
@@ -315,11 +315,11 @@ if(isEqualCI(typeOfBand,"Long-period")) {
 }
 char *typeOfInstrument = strtok(NULL," ");
 if(isEqualCI(typeOfInstrument,"High-Gain")) {
-	stationInfo.setTypeOfInstrument(HighGain);
+	stationinfo.setTypeOfInstrument(HighGain);
 } else if(isEqualCI(typeOfInstrument,"Low-Gain")) {
-	stationInfo.setTypeOfInstrument(LowGain);
+	stationinfo.setTypeOfInstrument(LowGain);
 } else if(isEqualCI(typeOfInstrument,"Accelerometer")) {
-	stationInfo.setTypeOfInstrument(Accelerometer);
+	stationinfo.setTypeOfInstrument(Accelerometer);
 } else {
 	sprintf(strTmp, "Entry #%3d ignored. Invalid type of instrument.",entryNumber);
 	printLog(strTmp);
@@ -369,11 +369,11 @@ if(isValidRow==0){
 		if(totalSignalNames>=300) {
 			break;
 		}
-		stationInfos[totalSignalNames].setNetworkCode( stationInfo.getNetworkCode() );
-		stationInfos[totalSignalNames].setStationCode( stationInfo.getStationCode() );
-		stationInfos[totalSignalNames].setOrientation( orientation[i] );
-		stationInfos[totalSignalNames].setTypeOfBand( stationInfo.getTypeOfBand() );
-		stationInfos[totalSignalNames].setTypeOfInstrument( stationInfo.getTypeOfInstrument() );
+		stationinfos[totalSignalNames].setNetworkCode( stationinfo.getNetworkCode() );
+		stationinfos[totalSignalNames].setStationCode( stationinfo.getStationCode() );
+		stationinfos[totalSignalNames].setOrientation( orientation[i] );
+		stationinfos[totalSignalNames].setTypeOfBand( stationinfo.getTypeOfBand() );
+		stationinfos[totalSignalNames].setTypeOfInstrument( stationinfo.getTypeOfInstrument() );
 		totalSignalNames++;
     	}
 	    validEntryCount++;
@@ -392,11 +392,11 @@ fprintf(fpOut,"%d\n",totalSignalNames);
 for(int i=0;i<totalSignalNames;i++) {
 	fprintf(fpOut,"%s.%s.%s.%c%c%c\n",
 		earthquake.getId().c_str(),
-		stationInfos[i].getNetworkCodeString(),
-		stationInfos[i].getStationCode().c_str(),
-		stationInfos[i].getTypeOfBand(),
-		stationInfos[i].getTypeOfInstrument(),
-		stationInfos[i].getOrientation()
+		stationinfos[i].getNetworkCodeString(),
+		stationinfos[i].getStationCode().c_str(),
+		stationinfos[i].getTypeOfBand(),
+		stationinfos[i].getTypeOfInstrument(),
+		stationinfos[i].getOrientation()
 		);
 	}
 fclose(fpLog);

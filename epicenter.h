@@ -1,5 +1,5 @@
 /*
- * Epicenter.h
+ * epicenter.h
  * Header file
  * khademul haque
  */
@@ -7,7 +7,7 @@
 #ifndef EPICENTER_H_
 #define EPICENTER_H_
 
-struct Epicenter {
+struct epicenter {
 private:
  double latitude;
  double longitude;
