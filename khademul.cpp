@@ -254,3 +254,24 @@ while(getline(fp, line)) {
 		continue;
 	}
 	int isValidRow=1;
+StationInfo stationInfo;
+char *networkCode = strtok((char *)line.c_str()," ");
+if(isEqual(networkCode,"CE") || isEqual(networkCode,"CI") || isEqual(networkCode,"FA")
+		|| isEqual(networkCode,"NP") || isEqual(networkCode,"WR")) {
+	if(isEqual(networkCode,"CE")) {
+		stationInfo.setNetworkCode(CE);
+	} else if (isEqual(networkCode,"CI") ) {
+		stationInfo.setNetworkCode(CI);
+	} else if (isEqual(networkCode,"FA") ) {
+		stationInfo.setNetworkCode(FA);
+	} else if (isEqual(networkCode,"NP") ) {
+		stationInfo.setNetworkCode(NP);
+	} else if (isEqual(networkCode,"WR") ) {
+		stationInfo.setNetworkCode(WR);
+	}
+
+} else {
+	sprintf(strTmp, "Entry #%3d ignored. Invalid network.",entryNumber);
+	printLog(strTmp);
+	isValidRow=0;
+}
