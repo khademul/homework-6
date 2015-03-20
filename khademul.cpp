@@ -355,3 +355,37 @@ if(strlen(orientation)>3) {
 		}
 	}
 }
+if(!isValid) {
+	sprintf(strTmp, "Entry #%3d ignored. Invalid orientation.",entryNumber);
+	printLog(strTmp);
+	//invalidCount++;
+	//continue;
+	isValidRow=0;
+} else {
+}
+if(isValidRow==0){
+	invalidCount++;
+} else {
+	for(unsigned int i=0;i<strlen(orientation);i++) {
+		if(totalSignalNames>=300) {
+			break;
+		}
+		stationInfos[totalSignalNames].setNetworkCode( stationInfo.getNetworkCode() );
+		stationInfos[totalSignalNames].setStationCode( stationInfo.getStationCode() );
+		stationInfos[totalSignalNames].setOrientation( orientation[i] );
+		stationInfos[totalSignalNames].setTypeOfBand( stationInfo.getTypeOfBand() );
+		stationInfos[totalSignalNames].setTypeOfInstrument( stationInfo.getTypeOfInstrument() );
+		totalSignalNames++;
+    	}
+	    validEntryCount++;
+    }
+    entryNumber++;
+}
+
+sprintf(strTmp,"Total invalid entries ignored: %d",invalidCount);
+printLog(strTmp);
+sprintf(strTmp,"Total valid entries read: %d",validEntryCount);
+printLog(strTmp);
+sprintf(strTmp,"Total signal names produced: %d",totalSignalNames);
+printLog(strTmp);
+
