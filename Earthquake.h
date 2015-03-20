@@ -8,9 +8,9 @@
 #ifndef EARTHQUAKE_H_
 #define EARTHQUAKE_H_
 
-#include "Epicenter.h"
-#include "Date.h"
-#include "Time.h"
+#include "epicenter.h"
+#include "date.h"
+#include "time.h"
 
 enum MagnitudeType {Ml, Ms, Mb, Mw};
 

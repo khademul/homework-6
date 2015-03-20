@@ -9,8 +9,8 @@
 #include <string.h>
 #include <stdlib.h>
 #include <fstream>
-#include "Earthquake.h"
-#include "StationInfo.h"
+#include "earthquake.h"
+#include "stationInfo.h"
 
 using namespace std;
 
