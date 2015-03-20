@@ -389,3 +389,19 @@ printLog(strTmp);
 sprintf(strTmp,"Total signal names produced: %d",totalSignalNames);
 printLog(strTmp);
 
+fprintf(fpOut,"%d\n",totalSignalNames);
+for(int i=0;i<totalSignalNames;i++) {
+	fprintf(fpOut,"%s.%s.%s.%c%c%c\n",
+		earthquake.getId().c_str(),
+		stationInfos[i].getNetworkCodeString(),
+		stationInfos[i].getStationCode().c_str(),
+		stationInfos[i].getTypeOfBand(),
+		stationInfos[i].getTypeOfInstrument(),
+		stationInfos[i].getOrientation()
+		);
+	}
+fclose(fpLog);
+fclose(fpOut);
+
+return 0;
+}
