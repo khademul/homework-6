@@ -180,3 +180,27 @@ if(!date.isValidDate()) {
 }
 earthquake.setDate(date);
 earthquake.setTime(time);
+
+string earthquakeName;
+if(!getline(fp,earthquakeName)) {
+	printLog("Error in Header File: Earthquake Name Missing");
+	exit(1);
+}
+earthquakeName = trim(earthquakeName);
+earthquake.setEarthquakeName(earthquakeName);
+
+if(!getline(fp,line)) {
+	printLog("Error in Header File: Latitude Longitude Line Missing");
+	exit(1);
+}
+line = trim(line);
+Epicenter epicenter;
+epicenter.setLongitude( atof_h(strtok((char *)line.c_str()," \r\n")) );
+epicenter.setLatitude( atof_h(strtok(NULL," \r\n")) );
+epicenter.setDepth( atof_h(strtok(NULL," \r\n")) );
+
+earthquake.setEpicenter(epicenter);
+
+char *magnitudeType = strtok(NULL," \r\n");
+earthquake.setMagnitudeSize( atof_h(strtok(NULL," \r\n")) );
+
