@@ -104,9 +104,9 @@ int main() {
 string line;
 char strTmp[256];
 char inputFilePath[1024];
-printf("Input File: ");
+printf("Enter Input File name: ");
 std::cin>>inputFilePath;
-fpLog = openFileWriteMode("earthquake.log");
+fpLog = openFileWriteMode("khademul.log");
 sprintf(strTmp, "Opening file:%s",inputFilePath);
 printLog(strTmp);
 std::ifstream fp(inputFilePath);
@@ -269,9 +269,89 @@ if(isEqual(networkCode,"CE") || isEqual(networkCode,"CI") || isEqual(networkCode
 	} else if (isEqual(networkCode,"WR") ) {
 		stationInfo.setNetworkCode(WR);
 	}
-
 } else {
 	sprintf(strTmp, "Entry #%3d ignored. Invalid network.",entryNumber);
 	printLog(strTmp);
 	isValidRow=0;
+}
+stationInfo.setStationCode(stationCode);
+char *stationCode = strtok(NULL," ");
+int isValid=1;
+if (strlen(stationCode)==3) {
+	for(int i=0;i<3;i++) {
+		if(stationCode[i]<'A' || stationCode[i]>'Z') {
+			isValid=0;
+			break;
+		}
+	}
+} else if(strlen(stationCode)==5) {
+	for(int i=0;i<5;i++) {
+		if(stationCode[i]<'0' || stationCode[i]>'9') {
+			isValid=0;
+			break;
+		}
+	}
+} else {
+	isValid=0;
+}
+if(isValid==0) {
+	sprintf(strTmp, "Entry #%3d ignored. Invalid station name.",entryNumber);
+	printLog(strTmp);
+	isValidRow=0;
+}
+stationInfo.setStationCode(stationCode);
+char *typeOfBand = strtok(NULL," ");
+if(isEqualCI(typeOfBand,"Long-period")) {
+	stationInfo.setTypeOfBand(LongPeriod);
+} else if(isEqualCI(typeOfBand,"Short-period")) {
+	stationInfo.setTypeOfBand(ShortPeriod);
+} else if(isEqualCI(typeOfBand,"Broadband")) {
+	stationInfo.setTypeOfBand(Broadband);
+} else {
+	sprintf(strTmp, "Entry #%3d ignored. Invalid band type.",entryNumber);
+	printLog(strTmp);
+	//invalidCount++;
+	//continue;
+	isValidRow=0;
+}
+char *typeOfInstrument = strtok(NULL," ");
+if(isEqualCI(typeOfInstrument,"High-Gain")) {
+	stationInfo.setTypeOfInstrument(HighGain);
+} else if(isEqualCI(typeOfInstrument,"Low-Gain")) {
+	stationInfo.setTypeOfInstrument(LowGain);
+} else if(isEqualCI(typeOfInstrument,"Accelerometer")) {
+	stationInfo.setTypeOfInstrument(Accelerometer);
+} else {
+	sprintf(strTmp, "Entry #%3d ignored. Invalid type of instrument.",entryNumber);
+	printLog(strTmp);
+	//invalidCount++;
+	//continue;
+	isValidRow=0;
+}
+char *orientation = strtok(NULL," ");
+isValid=1;
+if(strlen(orientation)>3) {
+	isValid=0;
+} else {
+	if(orientation[0]>='0' && orientation[0]<='9') {
+		for(unsigned int i=0;i<strlen(orientation);i++) {
+			if(orientation[i]<'0' || orientation[i]>'3') {
+				isValid=0;
+			}
+		}
+	} else {
+		for(unsigned int i=0;i<strlen(orientation);i++) {
+			switch(orientation[i]) {
+			case 'N':
+			case 'n':
+			case 'E':
+			case 'e':
+			case 'Z':
+			case 'z':
+				break;
+			default:
+				isValid=0;
+			}
+		}
+	}
 }
