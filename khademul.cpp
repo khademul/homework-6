@@ -228,3 +228,4 @@ if(earthquake.getMagnitudeSize()<0) {
 	return 0;
 }
 printLog("Header read correctly!");
+FILE *fpOut = openFileWriteMode("khademul.out");
