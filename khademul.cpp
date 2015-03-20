@@ -9,13 +9,13 @@
 #include <string.h>
 #include <stdlib.h>
 #include <fstream>
+#include "Earthquake.h"
+#include "StationInfo.h"
 
 using namespace std;
 
-struct StationInfo {
-	char networkCode[3];
-	char stationCode[6];
-	enum {LongPeriod='L', ShortPeriod='B', Broadband='H'} typeOfBand;
-	enum {HighGain='H', LowGain='L', Accelerometer='N'} typeOfInstrument;
-	char orientation; // N, E, Z, 1, 2, 3
-};
+FILE *fpLog = NULL;
+
+
+
+
