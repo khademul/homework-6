@@ -16,6 +16,87 @@ using namespace std;
 
 FILE *fpLog = NULL;
 
+void printLog(char *strLog) {
+	printf("%s\n", strLog);
+	fprintf(fpLog, "%s\r\n", strLog);
+}
+int isIntegerString(char *str) {
+	for(unsigned int i=0; i<strlen(str); i++) {
+		if((str[i]>='0' && str[i]<='9') || str[i]=='-' || str[i]=='+') {
+		} else {
+			return 0;
+		}
+	}
+	return 1;
+}
+int atoi_h(char *str) {
+	if(!isIntegerString(str)) {
+		printLog("Error: Integer Expected");
+		exit(1);
+	}
+	return atoi(str);
+}
+int isFloatString(char *str) {
+	for(unsigned int i=0; i<strlen(str); i++) {
+		if((str[i]>='0' && str[i]<='9') || str[i]=='.' || str[i]=='-' || str[i]=='+') {
 
-
+		} else {
+			return 0;
+		}
+	}
+	return 1;
+}
+float atof_h(char *str) {
+	if(!isFloatString(str)) {
+		printLog("Error: Real Number Expected");
+		printLog(str);
+		exit(1);
+	}
+	return atof(str);
+}
+int isEqual(char *s1, char *s2) {
+	return strcmp(s1,s2)==0;
+}
+int isEqualCI(char *s1, char *s2) {
+	if(strlen(s1)!=strlen(s2)) {
+		return 0;
+	}
+	for(unsigned int i=0; i<strlen(s1); i++) {
+		if(tolower(s1[i])!=tolower(s2[i])) {
+			return 0;
+		}
+	}
+	return 1;
+}
+void trimLastNewLines(char *str) {
+	for(int i=strlen(str)-1; i>=0; i++) {
+		if(str[i]=='\r' || str[i]=='\n') {
+			str[i] = 0;
+		} else {
+			break;
+		}
+	}
+}
+// trim from start
+static inline std::string &ltrim(std::string &s) {
+        s.erase(s.begin(), std::find_if(s.begin(), s.end(), std::not1(std::ptr_fun<int, int>(std::isspace))));
+        return s;
+}
+// trim from end
+static inline std::string &rtrim(std::string &s) {
+        s.erase(std::find_if(s.rbegin(), s.rend(), std::not1(std::ptr_fun<int, int>(std::isspace))).base(), s.end());
+        return s;
+}
+// trim from both ends
+static inline std::string &trim(std::string &s) {
+        return ltrim(rtrim(s));
+}
+FILE* openFileWriteMode(char *filePath) {
+	FILE *fp = fopen(filePath, "w");
+	if(fp==NULL) {
+		printf("Unable to open %s. Check permission\n", filePath);
+		exit(1);
+	}
+	return fp;
+}
 
