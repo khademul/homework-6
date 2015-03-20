@@ -100,3 +100,33 @@ FILE* openFileWriteMode(char *filePath) {
 	return fp;
 }
 
+int main() {
+	string line;
+	char strTmp[256];
+	char inputFilePath[1024];
+	printf("Input File: ");
+	std::cin>>inputFilePath;
+	fpLog = openFileWriteMode("earthquake.log");
+	sprintf(strTmp, "Opening file:%s",inputFilePath);
+	printLog(strTmp);
+	std::ifstream fp(inputFilePath);
+	if (!fp.is_open()) {
+		printLog("Input file not exist");
+		exit(1);
+	}
+	Earthquake earthquake;
+	Date date;
+	Time time;
+	printLog("Processing input...");
+	string eventId;
+	if(!getline(fp, eventId)) {
+		printLog("Error in Header File: No Event ID");
+		return 0;
+	}
+	eventId = trim(eventId);
+	earthquake.setId(eventId);
+	if(!getline(fp, line)) {
+		printLog("Error in Header File: Date Time Row Missing");
+		return 0;
+	}
+	line = trim(line);
